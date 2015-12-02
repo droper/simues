@@ -1,0 +1,122 @@
+{% extends "main.html" %}
+
+{% block title %}Formulario de Registro de Puntos de Muestreo{% endblock %}
+
+{% block subtitulo %}Formulario de Registro de Puntos de Muestreo{% endblock %}
+
+{% block form %}
+{{ form_punto.media }}
+
+
+<form action="" method="post">
+{% csrf_token %}
+<table>
+    {% for field in form_punto.visible_fields %}
+        <tr>
+            <td>{{ field.label_tag }}</td>
+            <td>{{ field }}</td>
+            <td>{{ field.errors }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+     {% if messages %}
+        {% for message in messages %}
+            {% if 'punto' in message.tags %}
+                <div class="message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+     {% endif %}
+
+<input type="submit" value="Guardar" name="form_punto"/>
+</form>
+
+
+{% if mostrar %}
+
+<h3>Ingresar Número de Envases</h3>
+
+<form action="" method="post">
+{% csrf_token %}
+    <table>
+    {% for field in form_envases.visible_fields %}
+        <tr>
+            <td>{{ field.label_tag }}</td>
+            <td>{{ field }}</td>
+            <td>{{ field.errors }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+     {% if messages %}
+        {% for message in messages %}
+            {% if 'envases' in message.tags %}
+                <div class="message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+     {% endif %}
+
+<input type="submit" value="Guardar" name="form_envases"/>
+</form>
+
+
+
+{% if formset_parametros %}
+
+<h3>Subir archivo Xml con los valores de los parámetros</h3>
+
+<form action="{% url 'cadenas:subir_xml_punto_muestreo' punto.id %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+    <table>
+    {% for field in form_subir_xml.visible_fields %}
+        <tr>
+            <td>{{ field.label_tag }}</td>
+            <td>{{ field }}</td>
+            <td>{{ field.errors }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+     {% if messages %}
+        {% for message in messages %}
+            {% if 'subido' in message.tags %}
+                <div class="message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+     {% endif %}
+
+
+<input type="submit" value="Subir" name="form_subir_xml"/>
+</form>
+
+
+<h3>Ingresar valores de los Parámetros</h3>
+
+<form action="" method="post">
+{% csrf_token %}
+
+    <table>
+    {{formset_parametros.as_table}}
+    </table>
+
+     {% if messages %}
+        {% for message in messages %}
+            {% if 'parametros' in message.tags %}
+                <div class="message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+     {% endif %}
+
+<input type="submit" value="Guardar" name="form_parametros"/>
+</form>
+
+
+
+{% endif %}
+
+{% endif %}
+{% endblock form %}
+
+{% block content %}
+
+{% endblock %}

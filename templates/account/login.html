@@ -1,0 +1,40 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+        <h3>Sistema de Muestreo</h3>
+        <div class="header">Ingresa al Sistema</div>
+        <form class="login" method="POST" action="{% url 'account_login' %}">
+          {% csrf_token %}
+            {{ form.non_field_errors }}
+            <input id="id_login" class="login-input" maxlength="30" name="login" placeholder="Username" type="text" />{{ form.login.errors }}<br>
+            <input id="id_password"  class="login-input" name="password" placeholder="Password" type="password" />{{ form.password.errors }}<br>
+            <div class="remember-forgot-section">
+                <input id="id_remember" name="remember" type="checkbox" />
+                <label for="id_remember">Recordarme</label>
+            </div>
+            <div class="remember-forgot-section ">
+                <a href="/accounts/password/reset/">Olvide mi contraseña</a>
+            </div>
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+
+          <button class="btn" type="submit">{% trans "Sign In" %}</button>
+        </form>
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'login' in message.tags %}
+                    <div class="message">{{ message }}</div>
+                {%endif %}
+            {% endfor %}
+        {% endif %}
+
+{% endblock %}
+

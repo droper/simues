@@ -1,0 +1,86 @@
+{% extends "main.html" %}
+
+{% block title %}
+Formulario de Registro del Seguimiento de Actividades de Supervisión
+{% endblock %}
+
+{%block subtitulo %}Seguimiento de Actividades de Supervisión {% endblock %}
+
+{% block cabecera %}
+
+<table>
+
+<tr><td><b>CUC:</b></td> <td>{{actividad.codactividad}}</td></tr>
+<tr><td><b>Unidad:</b></td> <td>{{actividad.idunidadoperativa}}</td></tr>
+<tr><td><b>Actividad:</b></td> <td>{{actividad.idsubunidadoperativa.actividad}}</td></tr>
+<tr><td><b>Fecha Inicial:</b></td> <td>{{actividad.fechaini}}</td></tr>
+<tr><td><b>Fecha Fin:</b></td> <td>{{actividad.fechafin}}</td></tr>
+<tr><td><b>Tipo Supervisión:</b></td> <td>{{actividad.idtipsup.txtipsup}}</td></tr>
+<tr><td><b>Sub Tipo Supervisión:</b></td> <td>{{actividad.idsubtipsup.txsubtipsup}}</td></tr>
+<tr><td><b>TDRs:</b></td>
+
+    <td> {% for tdr in actividad.tdrs %}
+
+            {{tdr}},
+
+         {% endfor %}
+    </td>
+</tr>
+
+</table>
+{% endblock cabecera %}
+
+{% block form %}
+{{ form_seguimiento.media }}
+
+
+<form action="{% url 'resumenact:elegir_cargo_inspectores' actividad.idactividad %}"
+                                        method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+<table>
+    {% for field in form_elegir.visible_fields %}
+        <tr>
+            <td>{{ field.label_tag }}</td>
+            <td>{{ field }}</td>
+            <td>{{ field.errors }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+ {% if messages %}
+    {% for message in messages %}
+        {% if 'inspector' in message.tags %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+ {% endif %}
+
+    <input type="submit" value="Guardar" name="form_elegir"/>
+</form>
+
+
+<form action="" method="post">
+{% csrf_token %}
+<table>
+    {% for field in form_seguimiento.visible_fields %}
+        <tr>
+            <td>{{ field.label_tag }}</td>
+            <td>{{ field }}</td>
+            <td>{{ field.errors }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+     {% if messages %}
+        {% for message in messages %}
+            {% if 'seguimiento' in message.tags %}
+                <div class="message">{{ message }}</div>
+            {% endif %}
+        {% endfor %}
+     {% endif %}
+
+<input type="submit" value="Guardar" name="form"/>
+</form>
+
+{% endblock form %}

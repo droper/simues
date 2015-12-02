@@ -1,0 +1,96 @@
+{% extends "main.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+Formulario de Búsqueda de Actividades de Supervisión
+{% endblock %}
+
+
+{% block script_propio%}
+<!-- Css Propio-->
+<link href="{% static 'css/form_busqueda.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{%block subtitulo %} Formulario de Búsqueda de Actividades de Supervisión{% endblock %}
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+   {% block form %}
+    <form action="" method="get" class="form-vertical">
+
+            {% include "form_snippet.html" with form=form %}
+
+            <button type="submit" class="btn btn-primary"/>
+            {% block nombreboton %} Buscar{% endblock %}
+            </button>
+    </form>
+    {% endblock form%}
+
+
+{% block content %}
+{% if mostrar %}
+
+<br>
+
+{% if actividades.count = 0 %}
+<div class="message">No se encontraron Resultados</div>
+{% endif %}
+
+<h2 class="sub-header">Actividades de Muestreo</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>CUC</th>
+        <th>Tipo de Supervisión</th>
+        <th>SubTipo de Supervisión</th>
+        <th>Fecha Inicial</th>
+        <th>Fecha Final</th>
+        <th>Administrado</th>
+        <th>Unidad</th>
+        <th>Seguimiento Actividad</th>
+        <th>Cadenas de Custodia</th>
+    </tr>
+
+    {% for actividad in actividades %}
+    <tr>
+
+        <td>{{actividad.codactividad}}</td>
+        <td>{{actividad.idsubtipsup.idtipsup.txtipsup}}</td>
+        <td>{{actividad.idsubtipsup.txsubtipsup}}</td>
+        <td>{{actividad.fechaini.date}}</td>
+        <td>{{actividad.fechafin.date}}</td>
+        <td>{{actividad.idadministrado.razonsocial}}</td>
+        <td>{{actividad.idsubunidadoperativa.idunidadoperativa.txnombreunidad}}</td>
+
+        <td>
+            <a href="{% url 'resumenact:registro' actividad.idactividad %}">
+            {% if actividad.simuessegactividad.id %}
+               Editar
+            {% else %}
+                Nuevo
+            {% endif %}
+            </a>
+        </td>
+        <td>
+            <a href="{% url 'cadenas:lista' actividad.idactividad %}">Cadenas
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endif %}
+
+{% endblock %}
+
+{% block script_propios %}
+{% load staticfiles %}
+<script src="{% static 'js/ajax_form_busqueda.js' CSRF_TOKEN={{ csrf_token }} %}"></script>
+{% endblock %}
+
+{%comment%}
+{%endcomment%}

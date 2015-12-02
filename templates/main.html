@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0, false">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load staticfiles %}
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'bootstrap/3.3.4/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <link href="{% static 'bootstrap/3.3.4/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'bootstrap/3.3.4/css/simple-sidebar.css' %}" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="{% static 'bootstrap/3.3.4/js/jquery-2.1.3.min.js' %}" ></script>
+
+    {% block script_propio%}
+    {% endblock %}
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'bootstrap/3.3.4/js/bootstrap.min.js' %}"></script>
+
+    <!-- Css Propio-->
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
+
+
+
+    {{ form.media }}
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper" >
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Sistema de Muestreo
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}">Seguimiento</a>
+                </li>
+                <li>
+                    <a href="/admin/">Administración</a>
+                </li>
+                <li>
+                    {% if request.user.is_authenticated %}
+                        <a href="/accounts/logout/" class="pull-left">Cerrar Sesión</a>
+                        {% if request.user.first_name or request.user.last_name %}
+                            {{ request.user.first_name }} {{ request.user.last_name }}
+                        {% else %}
+                            {{ request.user.username }}
+                        {% endif %}
+                    {% else %}
+                        <a href="/accounts/login/" class="pull-left">Login</a>
+                    {% endif %}
+                </li>
+
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Esconder/Abrir Menu</a>
+
+                        <h1>{%block subtitulo %}{% endblock %}</h1>
+
+                        {% block cabecera %}
+                        {% endblock cabecera %}
+
+                        {% block form %}
+                        <form action="" method="post" class="form-vertical">
+                                {% csrf_token %}
+
+                                {% include "form_snippet.html" with form=form %}
+
+                                <button type="submit" class="btn btn-primary"/>
+                                {% block nombreboton %} Guardar{% endblock %}
+                                </button>
+
+                        </form>
+                        {% endblock form%}
+
+
+
+                        {% block content %}
+
+                        {% endblock content %}
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- Menu Toggle Script -->
+<script>
+$("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+});
+
+/*Desaparece el mensaje luego de 5 segundos*/
+$(".message").fadeIn('slow').delay(5000).fadeOut('slow');
+
+$('.message a.close-notify').click(function () {
+    $('.message').stop().fadeOut('slow', removeMessageLayer);
+    $('.messageContainer').text();
+    return false;
+});
+
+</script>
+
+{% block script_propios %}
+{%endblock%}
+
+
+</body>
+
+<head>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+</head>
+
+</html>

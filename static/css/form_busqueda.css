@@ -1,0 +1,11 @@
+div#fecha_ini, div#fecha_fin {
+    width: 30%;
+}
+
+#id_cuc, #id_tdr, #id_tipo_supervision, #id_sub_tipo_supervision {
+    width: 30%;
+}
+
+#id_unidad {
+    width: 100%;
+}

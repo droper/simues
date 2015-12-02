@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+
+      {% load staticfiles %}
+     <link rel="stylesheet" type="text/css" href='{% static 'css/auth_style.css' %}'/>
+      <link rel="stylesheet" type="text/css" href='{% static 'css/base.css' %}'/>
+  </head>
+
+  <body class="logged-out">
+
+  <div id="header_container">
+      <div class="sub-header-1">
+          <div class="wrapper">
+             <span id="logo-oefa"></span>
+          </div>
+      </div>
+      <div class="sub-header-2"></div>
+  </div>
+
+
+  <div id="content-wrap">
+		<section id="content">
+				<div class="wrapper">
+    {% block body %}
+        <div class="inset">
+        {% block content %}
+        {% endblock %}
+        </div>
+
+    {% endblock %}
+
+    {% block extra_body %}
+    {% endblock %}
+
+			</div>
+		</section>
+  </div>
+
+  <div id="footer">
+      <div id="copyright">
+          <span>
+           © 2015 OEFA, El uso de este sitio está sujeto a nuestras Condiciones de uso. Todos los derechos reservados.
+          </span>
+      </div>
+  </div>
+
+  </body>
+</html>

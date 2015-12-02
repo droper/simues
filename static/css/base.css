@@ -1,0 +1,15 @@
+.message {
+color: red;
+font-size: 17px;
+}
+
+.errorlist {
+color: red;
+font-size: 17px;
+}
+
+#id_nombre, #id_referencia {
+    width: 100%;
+}
+
+

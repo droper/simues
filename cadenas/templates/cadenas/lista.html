@@ -1,0 +1,58 @@
+{% extends "main.html" %}
+
+
+{% block title %}Lista de Cadenas de Custodia{% endblock %}
+
+{% block subtitulo %}Lista de Cadenas de Custodia{% endblock %}
+
+
+
+{% block cabecera %}
+
+<p>Unidad: {{actividad.idunidadoperativa}}</p>
+<p>Actividad: {{actividad.idsubunidadoperativa.actividad}}</p>
+
+{% endblock cabecera %}
+
+{% block form %}
+{% endblock form %}
+
+{% block content %}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Nro de Orden</th>
+        <th>TDR</th>
+        <th>Correlativo</th>
+        <th>Laboratorio</th>
+        <th>Tarea (Análisis)</th>
+        <th>Editar</th>
+    </tr>
+    {% for cadena in cadenas %}
+    <tr>
+        <td>{% if cadena.tdr %}
+                {{cadena.nro_orden}} - {{cadena.numero_cadenas}}
+            {% else %}
+                No tiene # de orden
+            {% endif %}
+        </td>
+        <td>{{cadena.tdr}}</td>
+        <td>{{cadena.correlativo}}</td>
+        <td>{{cadena.laboratorio}}</td>
+        <td>
+        {% if cadena.analisis %}
+           {{cadena.analisis}}
+        {% else %}
+           No tiene análisis
+        {% endif %}
+        </td>
+        <td>
+            <a href="{% url 'cadenas:editar' cadena.id %}">Editar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="{% url 'cadenas:registro' actividad.idactividad %}">Nueva Cadena de Custodia</a>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "main.html" %}
+
+
+{% block title %} Formulario de Registro de Cadenas de Custodia{% endblock %}
+
+{% block subtitulo %}Formulario de Registro de Cadenas de Custodia{% endblock %}
+
+
+{% block form %}
+{{block.super}}
+{%endblock%}
+
+
+{% block content %}
+
+{% if cadena %}
+
+<a href="{% url 'cadenas:registro_punto_muestreo' cadena.id %}">Nuevo Punto de Muestreo </a>
+
+{% endif %}
+
+{%if mostrar%}
+
+<h3>Muestras</h3>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Punto de Muestreo</th>
+        <th>Tipo de punto</th>
+        <th>Tipo de Muestra</th>
+        <th>Fecha/Hora</th>
+        <th>Editar</th>
+    </tr>
+    {% for punto_muestreo in puntos_muestreo %}
+    <tr>
+        <td>{{punto_muestreo.nombre}}</td>
+        <td>{{punto_muestreo.tipopunto}}</td>
+        <td>{{punto_muestreo.tipomuestra}}</td>
+        <td>{{punto_muestreo.fecha_hora}}</td>
+        <td>
+            <a href="{% url 'cadenas:editar_punto_muestreo' punto_muestreo.id %}">Editar</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endif %}
+
+
+
+{% endblock %}
